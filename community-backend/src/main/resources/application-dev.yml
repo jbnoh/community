@@ -1,0 +1,65 @@
+server:
+  port: 9090
+  data-path: ${user.dir}
+  servlet.session.timeout: 60m
+  # TOMCAT
+  tomcat.max-http-form-post-size: 20MB
+
+logging:
+  level:
+    root: info
+    org.hibernate:
+      SQL: debug
+      #orm.jdbc.bind: trace
+    com.community.mybatis: debug
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %5p %X{PID} --- [%thread] %logger{36}:%L - %msg%n"
+    file: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %5p %X{PID} --- [%thread] %logger{36}:%L - %msg%n"
+
+spring:
+  # DATASOURCE
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://127.0.0.1:3306/community
+    username: root
+    password: root
+    hikari:
+      pool-name: jpa-hikari-pool
+      maximum-pool-size: 5
+      jdbc-url: ${spring.datasource.url}
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      driver-class-name: ${spring.datasource.driver-class-name}
+      auto-commit: false
+      data-source-properties:
+        rewriteBatchedStatements: true
+    # DML script
+    #sql.init:
+    #encoding: utf-8
+    #mode: always
+    #data-locations: classpath:sql/init.sql, classpath:sql/init2.sql
+  # JPA
+  jpa:
+    #generate-ddl: true
+    #운영 이후, ALTER 필요시 `update` 활용
+    #hibernate.ddl-auto: update
+    #defer-datasource-initialization: true
+    properties.hibernate:
+      dialect: org.hibernate.dialect.MariaDBDialect
+      current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+      default_batch_fetch_size: ${chunkSize:100}
+      jdbc.batch_size: 20
+      order_inserts: true
+      order_updates: true
+      format_sql: true
+
+springdoc:
+  api-docs.path: /rjb-secret/api-docs
+  swagger-ui:
+    path: /rjb-secret/swagger-ui.html
+    url: /rjb-secret/api-docs
+    tags-sorter: alpha
+
+mybatis:
+  mapper-locations: mapper/**/*.xml
+  config-location: classpath:mybatis/mybatis-config.xml

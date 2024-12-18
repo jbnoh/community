@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" id="meta_viewport" content="width=device-width,initial-scale=1.0,minimum-scale=0,maximum-scale=10">
+	<meta name="HandheldFriendly" content="true">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="imagetoolbar" content="no">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+
+	<title th:text="${title != null} ? '커뮤니티-' + ${title} : '커뮤니티'"></title>
+	<link rel="icon" type="image/x-icon" th:href="@{/favicon.ico}">
+</head>
+</html>

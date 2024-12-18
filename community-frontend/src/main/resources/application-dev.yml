@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  data-path: ${user.dir}
+  servlet.session.timeout: 60m
+  # TOMCAT
+  tomcat.max-http-form-post-size: 20MB
+
+logging:
+  level:
+    root: info
+    org.hibernate:
+      SQL: debug
+      #orm.jdbc.bind: trace
+    com.community.mybatis: debug
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %5p %X{PID} --- [%thread] %logger{36}:%L - %msg%n"
+    file: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %5p %X{PID} --- [%thread] %logger{36}:%L - %msg%n"
+
+spring:
+  # thymeleaf
+  thymeleaf:
+    mode: HTML
+    cache: false
+  devtools:
+    restart.enabled: false
+    livereload.enabled: true

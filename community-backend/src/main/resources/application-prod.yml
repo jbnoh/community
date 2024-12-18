@@ -1,0 +1,67 @@
+server:
+  port: 9090
+  data-path: ${user.dir}
+  servlet.session.timeout: 60m
+  # TOMCAT
+  tomcat:
+    max-http-form-post-size: 20MB
+    accept-count: 100
+    max-connections: 200
+    connection-timeout: 30000
+    threads:
+      max: 50
+      min-spare: 10
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %5p %X{PID} --- [%thread] %logger{36}:%L - %msg%n"
+    file: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %5p %X{PID} --- [%thread] %logger{36}:%L - %msg%n"
+  file.name: ${server.data-path}/logs/backend/backend.log
+  logback.rollingpolicy:
+    file-name-pattern: ${LOG_FILE}.%d{yyyy-MM-dd}-%i.log
+    max-file-size: 1GB
+    max-history: 90
+
+spring:
+  # DATASOURCE
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://127.0.0.1:3306/community
+    username: root
+    password: root
+    hikari:
+      pool-name: jpa-hikari-pool
+      maximum-pool-size: 10
+      minimum-idle: 5
+      connection-timeout: 30000
+      max-lifetime: 1800000
+      idle-timeout: 600000
+      leak-detection-threshold: 300000
+      jdbc-url: ${spring.datasource.url}
+      username: ${spring.datasource.username}
+      password: ${spring.datasource.password}
+      driver-class-name: ${spring.datasource.driver-class-name}
+      auto-commit: false
+      data-source-properties:
+        rewriteBatchedStatements: true
+  # JPA
+  jpa.properties.hibernate:
+    dialect: org.hibernate.dialect.MariaDBDialect
+    current_session_context_class: org.springframework.orm.hibernate5.SpringSessionContext
+    default_batch_fetch_size: ${chunkSize:100}
+    jdbc.batch_size: 20
+    order_inserts: true
+    order_updates: true
+
+springdoc:
+  api-docs.path: /rjb-secret/api-docs
+  swagger-ui:
+    path: /rjb-secret/swagger-ui.html
+    url: /rjb-secret/api-docs
+    tags-sorter: alpha
+
+mybatis:
+  mapper-locations: mapper/**/*.xml
+  config-location: classpath:mybatis/mybatis-config.xml
